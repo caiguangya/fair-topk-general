@@ -17,6 +17,12 @@ namespace FairTopK {
 
 namespace DataLoader {
 
+void readCompasData(const std::string& file, std::vector<Eigen::VectorXd>& points, 
+    std::vector<int>& genders, std::vector<int>& races);
+
+void readJEEData(const std::string& file, std::vector<Eigen::VectorXd>& points, 
+    std::vector<int>& genders, std::vector<int>& categories);
+
 bool readPreprocessedDataset(const std::string& file, std::vector<Eigen::VectorXd>& points, 
     std::vector<Groups>& groups, GroupsMask& protectedGroup);
 

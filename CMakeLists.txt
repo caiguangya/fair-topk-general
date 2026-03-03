@@ -27,21 +27,29 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(GMP REQUIRED IMPORTED_TARGET gmp)
 pkg_check_modules(MPFR REQUIRED IMPORTED_TARGET mpfr)
 
-add_library(common_objs OBJECT src/data_loader.cpp src/utility.cpp src/experiments.cpp src/stabilization.cpp)
-target_include_directories(common_objs PRIVATE include)
-target_link_libraries(common_objs Eigen3::Eigen xtensor Boost::boost CLI11::CLI11)
+add_library(data_loader_obj OBJECT src/data_loader.cpp)
+target_include_directories(data_loader_obj PRIVATE include)
+target_link_libraries(data_loader_obj Boost::boost Eigen3::Eigen xtensor)
 
-add_executable(mip_based_method src/mip_based_method.cpp $<TARGET_OBJECTS:common_objs>)
-add_executable(klevel_based_method src/klevel_based_method.cpp $<TARGET_OBJECTS:common_objs>)
-add_executable(klevel_based_method_2d src/klevel_based_method_2d.cpp $<TARGET_OBJECTS:common_objs>)
-add_executable(baseline src/baseline.cpp $<TARGET_OBJECTS:common_objs>)
-add_executable(baseline_2d src/baseline_2d.cpp $<TARGET_OBJECTS:common_objs>)
+add_library(exp_reqd_objs OBJECT src/utility.cpp src/experiments.cpp src/stabilization.cpp)
+target_include_directories(exp_reqd_objs PRIVATE include)
+target_link_libraries(exp_reqd_objs Eigen3::Eigen CLI11::CLI11 Boost::boost)
+
+set(COMMON_OBJS $<TARGET_OBJECTS:data_loader_obj> $<TARGET_OBJECTS:exp_reqd_objs>)
+
+add_executable(mip_based_method src/mip_based_method.cpp ${COMMON_OBJS})
+add_executable(klevel_based_method src/klevel_based_method.cpp ${COMMON_OBJS})
+add_executable(klevel_based_method_2d src/klevel_based_method_2d.cpp ${COMMON_OBJS})
+add_executable(baseline src/baseline.cpp ${COMMON_OBJS})
+add_executable(baseline_2d src/baseline_2d.cpp ${COMMON_OBJS})
+add_executable(preprocess_data src/preprocess_data.cpp src/data_preprocessor.cpp $<TARGET_OBJECTS:data_loader_obj>)
 
 target_include_directories(mip_based_method PRIVATE include)
 target_include_directories(klevel_based_method PRIVATE include)
 target_include_directories(klevel_based_method_2d PRIVATE include)
 target_include_directories(baseline PRIVATE include)
 target_include_directories(baseline_2d PRIVATE include)
+target_include_directories(preprocess_data PRIVATE include)
 
 set(SOPLEX_LIBS ZLIB::ZLIB PkgConfig::GMP PkgConfig::MPFR TBB::tbb papilo soplex)
 
@@ -50,3 +58,4 @@ target_link_libraries(klevel_based_method Boost::boost Eigen3::Eigen LibCDS::cds
 target_link_libraries(klevel_based_method_2d Eigen3::Eigen)
 target_link_libraries(baseline Boost::boost Eigen3::Eigen ${SOPLEX_LIBS})
 target_link_libraries(baseline_2d Eigen3::Eigen)
+target_link_libraries(preprocess_data Eigen3::Eigen GUROBI xtensor)
