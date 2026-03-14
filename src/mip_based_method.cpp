@@ -35,7 +35,7 @@ bool checkGurobiLicense() {
 }
 
 template <FairTopK::Optimization opt>
-bool solveGruobi(int threadCount, const std::vector<Eigen::VectorXd> &points, const std::vector<FairTopK::Groups>& groups,
+bool solveGurobi(int threadCount, const std::vector<Eigen::VectorXd> &points, const std::vector<FairTopK::Groups>& groups,
     int k, FairTopK::GroupsMask pGroups, const std::vector<std::pair<int , int> >& pGroupsBounds, double margin,
     Eigen::VectorXd& weights) {
     GRBEnv env = GRBEnv(true);
@@ -451,7 +451,7 @@ int main(int argc, char* argv[]) {
     if (!success) return -1;
 
     auto solveFunc = boost::mp11::mp_with_index<(std::size_t)FairTopK::Optimization::NumOptions>((std::size_t)params.opt,
-        [isGurobi](auto opt) { return isGurobi ? solveGruobi<FairTopK::Optimization(opt())> :
+        [isGurobi](auto opt) { return isGurobi ? solveGurobi<FairTopK::Optimization(opt())> :
                                                  solveSCIP<FairTopK::Optimization(opt())>;
         });
 
