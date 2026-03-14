@@ -34,11 +34,11 @@ bool fastFairnessNACheck(int vacant, int tiesCount, const boost::container::smal
     const std::vector<std::pair<int , int> >& pGroupsBounds, const std::array<int, numGroups>& pGroupsCounts,
     const std::vector<std::pair<Groups, int> >& groupsCounts);
 
-template <std::size_t numGroups, class UtililtyCalculator = std::nullptr_t>
+template <std::size_t numGroups, class UtilityCalculator = std::nullptr_t>
 bool searchFairSelectionBacktrack(int vacant, const boost::container::small_vector<int, numGroups>& pGroupsVec,
     const std::vector<std::pair<int , int> >& pGroupsBounds, const std::vector<std::pair<Groups, int> >& groupsCounts,
     std::array<int, numGroups>& pGroupsCounts,
-    UtililtyCalculator&& utililtyCalculator = nullptr);
+    UtilityCalculator&& utilityCalculator = nullptr);
 }
 
 template <std::size_t numGroups>
@@ -619,11 +619,11 @@ bool fastFairnessNACheck(int vacant, int tiesCount, const boost::container::smal
     return false;
 }
 
-template <std::size_t numGroups, class UtililtyCalculator>
+template <std::size_t numGroups, class UtilityCalculator>
 bool searchFairSelectionBacktrack(int vacant, const boost::container::small_vector<int, numGroups>& pGroupsVec,
     const std::vector<std::pair<int , int> >& pGroupsBounds, const std::vector<std::pair<Groups, int> >& groupsCounts,
     std::array<int, numGroups>& pGroupsCounts,
-    UtililtyCalculator&& utililtyCalculator) {
+    UtilityCalculator&& utilityCalculator) {
     int numPGroups = pGroupsBounds.size();
     int numDistGroupMasks = groupsCounts.size();
 
@@ -696,11 +696,11 @@ bool searchFairSelectionBacktrack(int vacant, const boost::container::small_vect
             }
             if (isFair) {
                 fair = true;
-                if constexpr (std::is_same<UtililtyCalculator, std::nullptr_t>()) {
+                if constexpr (std::is_same<UtilityCalculator, std::nullptr_t>()) {
                     break;
                 }
                 else {
-                    std::forward<UtililtyCalculator>(utililtyCalculator)(states);
+                    std::forward<UtilityCalculator>(utilityCalculator)(states);
                 }
             }
             for (int i = 0; i < numPGroups; i++) {

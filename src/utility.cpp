@@ -317,7 +317,7 @@ bool checkProtectedGroupsBoundsCount(GroupsMask pGroups, const std::vector<std::
     
     int pGroupCount = 0;
     while (pGroupsBitmask != 0) {
-        if ((pGroupsBitmask & 1) != 0)
+        if ((pGroupsBitmask & GroupsMask(1)) != 0)
             pGroupCount += 1;
         
         pGroupsBitmask = pGroupsBitmask >> 1;

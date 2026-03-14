@@ -12,6 +12,7 @@
 #include <random>
 #include <string>
 #include <utility>
+#include <climits>
 
 #include <boost/predef.h>
 #include <boost/container/small_vector.hpp>
@@ -32,10 +33,10 @@ enum class Optimization : unsigned int { None = 0, Utility = 1, WeightsDifferenc
 
 using Groups = std::uint64_t;
 using GroupsMask = std::uint64_t;
-static constexpr std::size_t maxNumGroups = sizeof(Groups) * 8;
+static constexpr std::size_t maxNumGroups = sizeof(Groups) * CHAR_BIT;
 
 inline FAIRTOPK_ALWAYS_INLINE GroupsMask getGroupsMask(int group) noexcept {
-    return 1 << group;
+    return GroupsMask(1) << group;
 }
 
 template <std::size_t numGroups = maxNumGroups> requires (numGroups <= maxNumGroups)
@@ -45,7 +46,7 @@ inline boost::container::small_vector<int, numGroups> getPGroupsVec(GroupsMask p
 
     int pGroup = 0;
     while (pGroupsBitmask != 0) {
-        if ((pGroupsBitmask & 1) != 0)
+        if ((pGroupsBitmask & GroupsMask(1)) != 0)
             pGroupsVec.push_back(pGroup); 
 
         pGroup += 1;

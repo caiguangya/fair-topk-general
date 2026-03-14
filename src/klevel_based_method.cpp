@@ -284,7 +284,7 @@ using padding_bytes = xenium::policy::padding_bytes<0>;
 using KSetQueue = xenium::kirsch_kfifo_queue<PotKSet*, padding_bytes, reclaimer>;
 
 template <class TermChecker = std::nullptr_t>
-void enumeratePotKet(int count, int k, const std::vector<Eigen::VectorXd> &points, const int* kSet, 
+void enumeratePotKSet(int count, int k, const std::vector<Eigen::VectorXd> &points, const int* kSet, 
     KSetQueue& kSetQueue, PotKSetPool *pool, TermChecker&& termChecker = nullptr) {
     int kSetEleIdx = 0;
     for (int i = 0; i < count; i++) {
@@ -406,7 +406,7 @@ bool solve(int totalThreadCount,
             
             kSets.insert(firstKSet);
 
-            enumeratePotKet(count, k, points, firstKSet, kSetQueue, pool);
+            enumeratePotKSet(count, k, points, firstKSet, kSetQueue, pool);
 
             if constexpr (opt == FairTopK::Optimization::None) {
                 if (found.test(std::memory_order_relaxed)) return;
@@ -507,10 +507,10 @@ bool solve(int totalThreadCount,
                 if (iter == kSets.end()) continue;
                 
                 if constexpr (opt == FairTopK::Optimization::None) {
-                    enumeratePotKet(count, k, points, potKSetEles, kSetQueue, pool, foundChecker);
+                    enumeratePotKSet(count, k, points, potKSetEles, kSetQueue, pool, foundChecker);
                 }
                 else {
-                    enumeratePotKet(count, k, points, potKSetEles, kSetQueue, pool);
+                    enumeratePotKSet(count, k, points, potKSetEles, kSetQueue, pool);
                 }
 
                 potKSetEles = nullptr;

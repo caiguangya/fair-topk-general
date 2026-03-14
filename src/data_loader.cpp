@@ -24,7 +24,7 @@ namespace {
 void readPreprocessedCompasData(const std::string& file, std::vector<Eigen::VectorXd>& points,  
     std::vector<int>& genders, std::vector<int>& races);
 void readPreprocessedJEEData(const std::string& file, std::vector<Eigen::VectorXd>& points,
-    std::vector<int>& genders, std::vector<int>& categroies);
+    std::vector<int>& genders, std::vector<int>& categories);
 }
 
 bool readPreprocessedDataset(const std::string& file, std::vector<Eigen::VectorXd>& points, 
@@ -119,7 +119,7 @@ void readPreprocessedCompasData(const std::string& file, std::vector<Eigen::Vect
 }
 
 void readPreprocessedJEEData(const std::string& file, std::vector<Eigen::VectorXd>& points, 
-    std::vector<int>& genders, std::vector<int>& categroies) {
+    std::vector<int>& genders, std::vector<int>& categories) {
     std::ifstream inf(file, std::ifstream::in);
     
     auto data = xt::load_csv<double>(inf);
@@ -154,7 +154,7 @@ void readPreprocessedJEEData(const std::string& file, std::vector<Eigen::VectorX
 
         points.push_back(std::move(point));
         genders.push_back((int)row(dimension));
-        categroies.push_back((int)row(dimension + 1));
+        categories.push_back((int)row(dimension + 1));
     }
 }
 

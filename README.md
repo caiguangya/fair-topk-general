@@ -1,7 +1,7 @@
 # Generalizing Fair Top-k Selection: An Integrative Approach
 
 ## Overview
-This repository hosts code for *Generalizing Fair Top-k Selection: An Integrative Approach* (paper comming soon).
+This repository hosts code for *Generalizing Fair Top-k Selection: An Integrative Approach* ([arXiv](https://arxiv.org/abs/2603.04689)).
 
 The `main` branch is all you need for reproducing experimental results and the `preprocessing` branch contains code for data preprocessing.
 
@@ -31,7 +31,7 @@ This project can be built using either Apptainer or Docker containerization.
    ```
 3. Launch the container
    ```
-   docker run -it -v $(pwd):/fair-topk -w /fair-topk caiguangya/fair-topk:latest
+   docker run -it -v $(pwd):/fair-topk-general -w /fair-topk-general caiguangya/fair-topk:latest
    ```
 4. Compilation
    ```
@@ -82,7 +82,7 @@ Output programs: **klevel_based_method**, **klevel_based_method_2d**, **mip_base
 
     See below for examples of commands and their outputs.
 
-For executing mip_based_method with Gurobi solver inside the container, you might need to apply a new [Gurobi license](https://www.gurobi.com/features/web-license-service/). Before executing mip_based_method, run the following command
+For executing mip_based_method with Gurobi solver inside the container, you might need to apply a new [Gurobi license](https://www.gurobi.com/features/web-license-service). Before executing mip_based_method, run the following command
 ```
 export GRB_LICENSE_FILE=\path\to\gurobi\license
 ```
@@ -118,7 +118,7 @@ Output:
 k: 50 | Protected Group Proportion Bounds: [0.4, 0.6] [0.7, 0.9] [0.3, 0.55] | Epsilon: 0.05 | Optimization Goal: Stable Utility | Number of Threads: 128
 5/50 input weight vectors are fair
 7/45 fair weight vectors are found
-Average weight vector difference: 1.812736e-01
+Average weight vector difference: 1.821980e-01
 Average utility loss: 7.991146e-03
 ```
 

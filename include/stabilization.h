@@ -127,7 +127,7 @@ void stabilizeFairWeightVectorStcDim(const std::vector<Eigen::VectorXd> &points,
         tiesGroups, tiesScore, tiesIndices, pGroupsBaseCounts, tiesSelectedIndices);
 
     if (!fair) {
-        std::cerr << "Error: Failed to stablize a fair weight vector" << std::endl;
+        std::cerr << "Error: Failed to stabilize a fair weight vector" << std::endl;
         return;
     }
 
@@ -211,7 +211,7 @@ double findStableWeightVector(const std::vector<Eigen::VectorXd> &points, const 
         projectedPlane.normal -= diff(projDimension) * ProjPlaneNormalVector::Ones();
         projectedPlane.constant = -diff(projDimension);
 
-        double norm = projectedPlane.normal.norm();
+        double norm = projectedPlane.normal.template lpNorm<Eigen::Infinity>();
         projectedPlane.normal /= norm;
         projectedPlane.constant /= norm;
         
