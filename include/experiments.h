@@ -60,6 +60,10 @@ void evaluateQuality(const std::vector<Eigen::VectorXd> &points, const std::vect
     const InputParams& params, const std::vector<std::pair<int, Eigen::VectorXd> >& fairVectors, 
     const std::vector<Eigen::VectorXd> &unfairVectors);
 
+void testStability(const std::vector<Eigen::VectorXd> &points, 
+    const std::vector<Groups>& groups, GroupsMask pGroups, 
+    const InputParams& params, const std::vector<std::pair<int, Eigen::VectorXd> >& fairVectors);
+
 template <SolveExecutable Func, bool benchmarking>
 std::vector<std::pair<int, Eigen::VectorXd> > findFairWeightVectors(const std::vector<Eigen::VectorXd> &points, 
     const std::vector<Groups>& groups, GroupsMask pGroups, const InputParams& params, 
@@ -124,6 +128,9 @@ void fairTopkExperiments(const std::vector<Eigen::VectorXd> &points, const std::
 
     if (params.quality)
         evaluateQuality(points, groups, pGroups, params, fairVectors, weightVectorSamples);
+
+    if (params.stability)
+        testStability(points, groups, pGroups, params, fairVectors);
 }
 
 }

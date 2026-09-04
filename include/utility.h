@@ -85,6 +85,9 @@ std::vector<Eigen::VectorXd> getRandomWeightVectors(int count, const std::vector
     const std::vector<Groups>& groups, int k, GroupsMask pGroups, const std::vector<std::pair<int, int> >& pGroupsBounds, 
     bool pessimistic);
 
+Eigen::VectorXd perturbWeightVector(const Eigen::VectorXd& weights, double distance, std::default_random_engine& rand);
+std::vector<Eigen::VectorXd> perturbWeightVectors(const std::vector<Eigen::VectorXd>& weightVectors, double distance);
+
 template <int d>
 struct Plane {
     using NormalVector = Eigen::Matrix<double, d, 1>;
@@ -101,6 +104,9 @@ struct InputParams {
     bool pessSampling = false;
     bool runtime = false;
     bool quality = false;
+    bool stability = false;
+    double perturbDistance = 0.0;
+    int perturbCount = 0;
     std::string solver = "gurobi";
     Optimization opt = Optimization::None;
     std::vector<std::pair<int, int> > pGroupsBounds;

@@ -217,4 +217,40 @@ void evaluateQuality(const std::vector<Eigen::VectorXd> &points, const std::vect
     std::cout << "Average utility loss: " << std::scientific << avgUtilityLoss << std::endl;
 }
 
+void testStability(const std::vector<Eigen::VectorXd> &points, 
+    const std::vector<Groups>& groups, GroupsMask pGroups, 
+    const InputParams& params, const std::vector<std::pair<int, Eigen::VectorXd> >& fairVectors) {
+    if (fairVectors.empty()) {
+        std::cout << "0/0 fair weight vectors pass the stability test" << std::endl;
+        return;
+    }
+
+    int size = fairVectors.size();
+    int perturbCount = params.perturbCount;
+
+    std::vector<Eigen::VectorXd> fairWeightVectors;
+    fairWeightVectors.reserve(size * perturbCount);
+    for (const auto& fairVector : fairVectors) {
+        for (int i = 0; i < perturbCount; i++)
+            fairWeightVectors.push_back(fairVector.second);
+    }
+
+    std::vector<Eigen::VectorXd> perturbedVectors = perturbWeightVectors(fairWeightVectors, params.perturbDistance);
+
+    int stableCount = 0;
+    for (int j = 0; j < size; j++) {
+        bool stable = true;
+        for (int i = 0; i < perturbCount; i++) {
+            bool isFair = checkFairness(points, groups, perturbedVectors[j * perturbCount + i], 
+                params.k, pGroups, params.pGroupsBounds);
+
+            stable = stable && isFair;
+        }
+
+        stableCount += stable;
+    }
+
+    std::cout << stableCount << "/" << size << " fair weight vectors pass the stability test" << std::endl;
+}
+
 }

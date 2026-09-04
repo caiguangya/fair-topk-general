@@ -62,13 +62,14 @@ Output programs: **klevel_based_method**, **klevel_based_method_2d**, **mip_base
 2. Launch the container (skip this step if locally built)
 3. Run programs (inside the container)
     ```
-    program [-t] [-q] [-opt objective] [-f <PREPROCESSED DATASET PATH>] [-k k_value] \
-        [-plb lower_bounds] [-pub upper_bounds] [-eps epsilon] \ 
-        [-ns num_samples [-us]] [-nt num_threads] [-sol milp_solver]
+    program [-t] [-q] [-stb] [-opt objective] [-f <PREPROCESSED DATASET PATH>] \
+        [-k k_value] [-plb lower_bounds] [-pub upper_bounds] [-eps epsilon] \ 
+        [-ns num_samples [-us]] [-nt num_threads] [-sol milp_solver] [-sp ptrb_dist num_ptrb]
     ```
     * program: klevel_based_method, klevel_based_method_2d, mip_based_method, baseline or baseline_2d
     * -t: Runtime experiment
     * -q: Quality validation experiment
+    * -stb: Stability experiment
     * -opt: Optimization objective
         * wd/wtsdiff/weightsdifference: w difference
         * u/util/utility: Utility loss
@@ -79,6 +80,7 @@ Output programs: **klevel_based_method**, **klevel_based_method_2d**, **mip_base
     * -us: Uniform weight vector sampling method
     * -nt: Number of threads (optional for klevel_based_method and mip_based_method with Gurobi solver)
     * -sol: gurobi or scip (default: gurobi)
+    * -sp: Perturbation L1 distance and number of perturbed weight vectors per output weight vector (for -stb)
 
     See below for examples of commands and their outputs.
 
@@ -134,3 +136,22 @@ Average weight vector difference: 7.333302e-02
 Average protected group proportion: 6.000000e-01
 Average utility loss: 4.912341e-03
 ``` 
+
+### Stability experiments
+Command:  ```klevel_based_method -stb -opt su -f compas-50.csv -k 50 -plb 0.4 0.7 0.3 -pub 0.6 0.9 0.55 -eps 0.05 -ns 50 -sp 0.0001 4```
+
+Output:
+``` 
+k: 50 | Protected Group Proportion Bounds: [0.4, 0.6] [0.7, 0.9] [0.3, 0.55] | Epsilon: 0.05 | Optimization Goal: Stable Utility
+10/50 fair weight vectors are found
+10/10 fair weight vectors pass the stability test
+```
+
+Command:  ```mip_based_method -stb -opt wd -f compas-50.csv -k 50 -plb 0.4 0.7 0.3 -pub 0.6 0.9 0.55 -eps 0.05 -ns 50 -sp 0.0001 4```
+
+Output:
+``` 
+k: 50 | Protected Group Proportion Bounds: [0.4, 0.6] [0.7, 0.9] [0.3, 0.55] | Epsilon: 0.05 | Optimization Goal: Weights Difference
+10/50 fair weight vectors are found
+0/10 fair weight vectors pass the stability test
+```
