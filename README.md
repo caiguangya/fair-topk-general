@@ -3,7 +3,7 @@
 ## Overview
 This repository hosts code for *Generalizing Fair Top-k Selection: An Integrative Approach*.
 
-The `main` branch is all you need for reproducing experimental results and the [`preprocessing`](https://anonymous.4open.science/r/fair-topk-general-preprocessing-5247) branch contains code for data preprocessing.
+The `main` branch is all you need for reproducing experimental results and the [`preprocessing`](https://anonymous.4open.science/r/fair-topk-general-anonymous-preprocessing) branch contains code for data preprocessing.
 
 ## Build
 ### Containerization (recommended)
