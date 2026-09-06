@@ -1,7 +1,7 @@
 # Generalizing Fair Top-k Selection: An Integrative Approach
 
 ## Overview
-This repository hosts code for *Generalizing Fair Top-k Selection: An Integrative Approach* ([arXiv](https://arxiv.org/abs/2603.04689)).
+This repository hosts code for *Generalizing Fair Top-k Selection: An Integrative Approach*.
 
 The `main` branch is all you need for reproducing experimental results and the `preprocessing` branch contains code for data preprocessing.
 
@@ -27,11 +27,11 @@ This project can be built using either Apptainer or Docker containerization.
 1. [Install Docker](https://docs.docker.com/engine/install)
 2. Pull Docker image
    ```
-   docker pull caiguangya/fair-topk:latest
+   docker pull anonymous5247/fair-topk-general:latest
    ```
 3. Launch the container
    ```
-   docker run -it -v $(pwd):/fair-topk-general -w /fair-topk-general caiguangya/fair-topk:latest
+   docker run -it -v $(pwd):/fair-topk-general -w /fair-topk-general anonymous5247/fair-topk-general:latest
    ```
 4. Compilation
    ```
@@ -58,7 +58,7 @@ This project can be built using either Apptainer or Docker containerization.
 Output programs: **klevel_based_method**, **klevel_based_method_2d**, **mip_based_method**, **baseline** and **baseline_2d**
 
 ## Reproducibility
-1. [Download preprocessed datasets](https://www.dropbox.com/scl/fo/cilj9qgefmsuwi6ofa5ww/AEZMo3AbbaZ3ItqoqBAlk5U?rlkey=7pq6ih63y708um5ynqao3k24j&st=f9r2h7ix&dl=0)
+1. [Download preprocessed datasets](https://www.dropbox.com/scl/fo/o9rh8poks0o68m8dv6ur9/ADmv-f5UT4Hk4-kwXWcs32k?rlkey=clggh6g1ptqzxmrjyrjv9ay0p&st=zlucefma&dl=0)
 2. Launch the container (skip this step if locally built)
 3. Run programs (inside the container)
     ```
